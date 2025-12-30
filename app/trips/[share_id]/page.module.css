@@ -44,8 +44,26 @@
 
 /* Items */
 .itemWrapper {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
     position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* Organic Random Rotation Simulation */
+.itemWrapper:nth-child(odd) .planCard,
+.itemWrapper:nth-child(odd) .photoCard {
+    transform: rotate(1deg);
+}
+
+.itemWrapper:nth-child(even) .planCard,
+.itemWrapper:nth-child(even) .photoCard {
+    transform: rotate(-1.5deg);
+}
+
+.itemWrapper:hover .planCard,
+.itemWrapper:hover .photoCard {
+    transform: scale(1.02) rotate(0deg);
+    z-index: 10;
 }
 
 .dateMarker {
@@ -53,47 +71,95 @@
     background: var(--accent-green);
     color: white;
     display: inline-block;
-    padding: 0.2rem 0.8rem;
+    padding: 0.3rem 1rem;
     border-radius: 20px;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 1rem;
     font-size: 0.9rem;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    z-index: 2;
 }
 
 .planCard,
 .photoCard {
     background: white;
-    padding: 1rem;
-    border-radius: 4px;
-    box-shadow: var(--paper-shadow);
+    padding: 1.5rem;
+    border-radius: 2px;
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.05),
+        2px 4px 10px rgba(0, 0, 0, 0.1);
     position: relative;
+    max-width: 90%;
+    margin: 0 auto;
 }
 
 .planCard {
-    border-left: 4px solid var(--accent-green);
+    border-left: 6px solid var(--accent-green);
 }
 
 .photoCard {
-    padding: 0.8rem;
-    padding-bottom: 2rem;
+    padding: 1rem;
+    padding-bottom: 3.5rem;
     /* Polaroid bottom space */
+}
+
+/* Tape Effect */
+.photoCard::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 120px;
+    height: 35px;
+    background-color: rgba(255, 255, 255, 0.4);
+    background-image: linear-gradient(-45deg,
+            rgba(255, 255, 255, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent);
+    background-size: 10px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    opacity: 0.8;
 }
 
 .photoImage {
     width: 100%;
     height: auto;
-    border: 1px solid #eee;
+    border: 1px solid #f0f0f0;
     display: block;
+    filter: contrast(1.1) sepia(0.1);
+    /* Slight vintage look */
 }
 
 .caption {
-    font-family: 'Indie Flower', cursive, sans-serif;
-    /* Fallback */
-    margin-top: 0.5rem;
-    color: #555;
+    font-family: var(--font-kaisei), cursive;
+    margin-top: 1rem;
+    color: #444;
     text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .timelineContent {
+        padding: 0.5rem;
+    }
+
+    .itemWrapper {
+        margin-bottom: 2rem;
+    }
+
+    .tripTitle {
+        font-size: 1.5rem;
+    }
 }
 
 /* Add Button */
@@ -101,17 +167,22 @@
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: var(--accent-brown);
     color: white;
-    font-size: 2rem;
+    font-size: 2.5rem;
     border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.4);
     cursor: pointer;
     z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.2s;
+}
+
+.addButton:active {
+    transform: scale(0.95);
 }

@@ -3,7 +3,7 @@
   --foreground: #4a4036;
   --accent-brown: #8b4513;
   --accent-green: #2f4f4f;
-  --paper-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  --paper-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   --font-kaisei: 'Kaisei Decol', serif;
 }
 
@@ -15,10 +15,17 @@ body {
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background-color: var(--background);
+  /* Paper Texture Effect */
+  background-image:
+    linear-gradient(to right, rgba(200, 180, 160, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(200, 180, 160, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+
   font-family: var(--font-kaisei), serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
 * {
@@ -42,10 +49,12 @@ a {
   transition: opacity 0.2s;
   font-family: inherit;
 }
+
 .btn-primary {
   background-color: var(--accent-brown);
   color: #fff;
 }
+
 .btn-primary:hover {
   opacity: 0.9;
 }
