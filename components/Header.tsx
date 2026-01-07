@@ -6,7 +6,7 @@ export default function Header() {
         <header className={styles.header}>
             <div className={styles.container}>
                 <Link href="/dashboard" className={styles.logo}>
-                    Tabiori Scrap
+                    Tsuzuri
                 </Link>
                 <nav className={styles.nav}>
                     {/* Future: User Avatar / Logout */}

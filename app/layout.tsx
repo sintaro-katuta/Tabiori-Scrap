@@ -9,8 +9,8 @@ const kaiseiDecol = Kaisei_Decol({
 });
 
 export const metadata: Metadata = {
-  title: "Tabiori-Scrap",
-  description: "Share your travel memories on a collaborative timeline.",
+  title: "Tsuzuri",
+  description: "旅の計画と記録を、ひとつの綴り（タイムライン）に。",
 };
 
 export default function RootLayout({

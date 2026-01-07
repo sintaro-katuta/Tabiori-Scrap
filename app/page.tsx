@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <h1 className={styles.title}>Tabiori Scrap</h1>
+        <h1 className={styles.title}>Tsuzuri</h1>
         <p className={styles.description}>
           旅の思い出を、一枚のタイムラインに。
         </p>
