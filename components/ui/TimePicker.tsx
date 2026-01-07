@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
 import styles from './IOSPicker.module.css'
 
 interface TimePickerProps {
@@ -14,71 +14,58 @@ const HOURS = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0')
 const MINUTES = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0'))
 
 export default function TimePicker({ value, onChange }: TimePickerProps) {
-    const [selectedHour, setSelectedHour] = useState('00')
-    const [selectedMinute, setSelectedMinute] = useState('00')
-
     const hourRef = useRef<HTMLDivElement>(null)
     const minuteRef = useRef<HTMLDivElement>(null)
 
-    // Internal state to block loop triggering
-    const isScrolling = useRef(false)
-
-    // Sync props to state
-    useEffect(() => {
-        if (!value) return
-        const [h, m] = value.split(':')
-        if (h && m) {
-            setSelectedHour(h)
-            setSelectedMinute(m)
-
-            // Refined Logic:
-            // Only scroll programmatically if the "logical" item index is different.
-            // If we are on the correct item (index matches), we trust CSS Scroll Snap to handle the final pixel alignment.
-            // This prevents the JS from fighting the user's "slow" scroll or momentum.
-            const hIdx = parseInt(h)
-            const mIdx = parseInt(m)
-
-            if (hourRef.current) {
-                const currentScroll = hourRef.current.scrollTop
-                const currentIndex = Math.round(currentScroll / ITEM_HEIGHT)
-                if (currentIndex !== hIdx) {
-                    scrollToValue(hourRef.current, hIdx, false)
-                }
-            }
-            if (minuteRef.current) {
-                const currentScroll = minuteRef.current.scrollTop
-                const currentIndex = Math.round(currentScroll / ITEM_HEIGHT)
-                if (currentIndex !== mIdx) {
-                    scrollToValue(minuteRef.current, mIdx, false)
-                }
-            }
-        }
-    }, [value])
+    // Derived state
+    const [h = '00', m = '00'] = value ? value.split(':') : []
+    const selectedHour = h
+    const selectedMinute = m
 
     const scrollToValue = (element: HTMLDivElement | null, index: number, smooth = true) => {
         if (!element) return
-        // Ideally we should wait for layout but let's try direct
         element.scrollTo({
             top: index * ITEM_HEIGHT,
             behavior: smooth ? 'smooth' : 'auto'
         })
     }
 
+    // Sync scroll position when value changes
+    useEffect(() => {
+        if (!value) return
+
+        const hIdx = parseInt(selectedHour)
+        const mIdx = parseInt(selectedMinute)
+
+        if (hourRef.current) {
+            const currentScroll = hourRef.current.scrollTop
+            const currentIndex = Math.round(currentScroll / ITEM_HEIGHT)
+            if (currentIndex !== hIdx) {
+                scrollToValue(hourRef.current, hIdx, false)
+            }
+        }
+        if (minuteRef.current) {
+            const currentScroll = minuteRef.current.scrollTop
+            const currentIndex = Math.round(currentScroll / ITEM_HEIGHT)
+            if (currentIndex !== mIdx) {
+                scrollToValue(minuteRef.current, mIdx, false)
+            }
+        }
+    }, [value, selectedHour, selectedMinute])
+
     const handleScroll = (
         e: React.UIEvent<HTMLDivElement>,
         items: string[],
-        setter: React.Dispatch<React.SetStateAction<string>>,
         type: 'hour' | 'minute'
     ) => {
         const target = e.currentTarget
         const index = Math.round(target.scrollTop / ITEM_HEIGHT)
         const val = items[index]
         if (val) {
-            setter(val)
             if (type === 'hour') {
-                onChange(`${val}:${selectedMinute}`)
+                if (val !== selectedHour) onChange(`${val}:${selectedMinute}`)
             } else {
-                onChange(`${selectedHour}:${val}`)
+                if (val !== selectedMinute) onChange(`${selectedHour}:${val}`)
             }
         }
     }
@@ -101,7 +88,6 @@ export default function TimePicker({ value, onChange }: TimePickerProps) {
             }
 
             if (newIndex !== currentIndex) {
-                const newVal = items[newIndex]
                 const ref = type === 'hour' ? hourRef.current : minuteRef.current
                 scrollToValue(ref, newIndex, true)
             }
@@ -123,7 +109,7 @@ export default function TimePicker({ value, onChange }: TimePickerProps) {
             <div
                 className={styles.column}
                 ref={hourRef}
-                onScroll={(e) => handleScroll(e, HOURS, setSelectedHour, 'hour')}
+                onScroll={(e) => handleScroll(e, HOURS, 'hour')}
                 tabIndex={0}
                 onKeyDown={(e) => handleKeyDown(e, 'hour', HOURS)}
                 role="listbox"
@@ -150,7 +136,7 @@ export default function TimePicker({ value, onChange }: TimePickerProps) {
             <div
                 className={styles.column}
                 ref={minuteRef}
-                onScroll={(e) => handleScroll(e, MINUTES, setSelectedMinute, 'minute')}
+                onScroll={(e) => handleScroll(e, MINUTES, 'minute')}
                 tabIndex={0}
                 onKeyDown={(e) => handleKeyDown(e, 'minute', MINUTES)}
                 role="listbox"
