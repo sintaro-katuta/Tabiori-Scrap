@@ -5,6 +5,20 @@
 旅行の計画（Plan）と、旅先での思い出写真（Photo）を、1つのタイムライン上に時系列で表示。
 友人と同じURLを共有するだけで、リアルタイムに共同編集・閲覧ができるWebアプリケーションです。
 
+## 📸 App Overview
+
+ログインするだけで、すぐに旅行計画や思い出の共有が始められます。
+
+| トップページ | タイムライン (計画と写真) |
+| --- | --- |
+| ![Top Page](public/images/readme/top-page.png) | ![Timeline View](public/images/readme/timeline-view.png) |
+| 直感的なLPとログイン画面 | 予定と写真を時系列で確認できるメイン画面 |
+
+| 旅行作成 | 予定・写真の追加 |
+| --- | --- |
+| ![New Trip](public/images/readme/new-trip-form.png) | ![Add Item](public/images/readme/add-item-modal.png) |
+| 旅行のタイトルと日程を決めて作成 | 時間、場所、メモなどを詳細に記録 |
+
 ## ✨ 機能
 
 - **Googleログイン**: 面倒な登録フローなしで即時利用開始。
