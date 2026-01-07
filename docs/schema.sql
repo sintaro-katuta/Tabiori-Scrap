@@ -1,4 +1,4 @@
--- Tabiori-Scrap Database Schema
+-- Tsuzuri Database Schema
 
 -- 1. Create Trips Table
 create table trips (
