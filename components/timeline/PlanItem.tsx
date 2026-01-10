@@ -1,21 +1,28 @@
 
 import { toggleComplete, deleteItem } from '@/actions/item' // Added deleteItem
 import styles from '@/app/trips/[share_id]/page.module.css'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import EditItemForm from '@/components/forms/EditItemForm' // Import Edit Form
 
+import { Database } from '@/types/database'
+
+type TimelineItem = Database['public']['Tables']['timeline_items']['Row']
+
 interface PlanItemProps {
-    item: any
+    item: TimelineItem
 }
 
 export default function PlanItem({ item }: PlanItemProps) {
-    const [completed, setCompleted] = useState(item.is_completed)
-    const [isEditing, setIsEditing] = useState(false)
+    const [completed, setCompleted] = useState(item.is_completed ?? false)
+    const [prevIsCompleted, setPrevIsCompleted] = useState(item.is_completed)
 
-    // Sync state with prop if it changes externally
-    useEffect(() => {
-        setCompleted(item.is_completed)
-    }, [item.is_completed])
+    // Adjust state during rendering if prop changes
+    if (item.is_completed !== prevIsCompleted) {
+        setPrevIsCompleted(item.is_completed)
+        setCompleted(item.is_completed ?? false)
+    }
+
+    const [isEditing, setIsEditing] = useState(false)
 
     const handleToggle = async () => {
         const newState = !completed
@@ -48,7 +55,7 @@ export default function PlanItem({ item }: PlanItemProps) {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
                         <input
                             type="checkbox"
-                            checked={completed}
+                            checked={completed ?? false}
                             onChange={handleToggle}
                             style={{ transform: 'scale(1.2)' }}
                         />

@@ -2,22 +2,24 @@
 
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
 import styles from '@/app/trips/[share_id]/page.module.css'
 import PlanItem from './PlanItem'
 import PhotoItem from './PhotoItem'
 import AddItemForm from '@/components/forms/AddItemForm'
 
+import { Database } from '@/types/database'
+
+type TimelineItem = Database['public']['Tables']['timeline_items']['Row']
+
 interface TimelineProps {
     tripId: string
-    initialItems: any[]
+    initialItems: TimelineItem[]
 }
 
 export default function Timeline({ tripId, initialItems }: TimelineProps) {
-    const [items, setItems] = useState<any[]>(initialItems)
+    const [items, setItems] = useState<TimelineItem[]>(initialItems)
     const [showAddForm, setShowAddForm] = useState(false)
     const supabase = createClient()
-    const router = useRouter() // Used for refreshing if needed, but we try to rely on state
 
     useEffect(() => {
         // Subscribe to realtime changes
@@ -33,11 +35,11 @@ export default function Timeline({ tripId, initialItems }: TimelineProps) {
                 },
                 (payload) => {
                     if (payload.eventType === 'INSERT') {
-                        setItems((prev) => [...prev, payload.new].sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()))
+                        setItems((prev) => [...prev, payload.new as TimelineItem].sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()))
                     } else if (payload.eventType === 'DELETE') {
                         setItems((prev) => prev.filter((item) => item.id !== payload.old.id))
                     } else if (payload.eventType === 'UPDATE') {
-                        setItems((prev) => prev.map((item) => (item.id === payload.new.id ? payload.new : item)).sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()))
+                        setItems((prev) => prev.map((item) => (item.id === payload.new.id ? payload.new as TimelineItem : item)).sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()))
                     }
                 }
             )

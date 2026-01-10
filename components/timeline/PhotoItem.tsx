@@ -7,8 +7,12 @@ import { deleteItem } from '@/actions/item'
 import EditItemForm from '@/components/forms/EditItemForm'
 import Lightbox from '@/components/ui/Lightbox'
 
+import { Database } from '@/types/database'
+
+type TimelineItem = Database['public']['Tables']['timeline_items']['Row']
+
 interface PhotoItemProps {
-    item: any
+    item: TimelineItem
 }
 
 export default function PhotoItem({ item }: PhotoItemProps) {
@@ -21,7 +25,7 @@ export default function PhotoItem({ item }: PhotoItemProps) {
     const handleDelete = async () => {
         if (!confirm('本当に削除しますか？')) return
         try {
-            await deleteItem(item.id, 'PHOTO', item.photo_path)
+            await deleteItem(item.id, 'PHOTO', item.photo_path || undefined)
             // Lightbox will unmount if item is removed from list, or we can close it manually
             setShowLightbox(false)
         } catch (e) {
@@ -108,7 +112,7 @@ export default function PhotoItem({ item }: PhotoItemProps) {
                 isOpen={showLightbox}
                 onClose={() => setShowLightbox(false)}
                 imageSrc={publicUrl}
-                imageAlt={item.memo}
+                imageAlt={item.memo || undefined}
                 actions={LightboxActions}
             />
         </div>
