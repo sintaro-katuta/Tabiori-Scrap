@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { SupabaseClient } from '@supabase/supabase-js'
 
 export async function addPlan(formData: FormData) {
     const tripId = formData.get('tripId') as string
@@ -100,7 +101,7 @@ export async function toggleComplete(itemId: string, isCompleted: boolean) {
 
 // Helper to check permission
 // Returns true if user is Creator of item OR Owner of trip
-async function verifyPermission(itemId: string, userId: string, supabase: any) {
+async function verifyPermission(itemId: string, userId: string, supabase: SupabaseClient) {
     const { data: item, error } = await supabase
         .from('timeline_items')
         .select(`
@@ -116,7 +117,7 @@ async function verifyPermission(itemId: string, userId: string, supabase: any) {
 
     // Check if user is item creator OR trip owner
     const isCreator = item.created_by === userId
-    // @ts-ignore: Supabase types complexity
+
     const isTripOwner = item.trips?.owner_id === userId
 
     return isCreator || isTripOwner

@@ -8,8 +8,12 @@ import TimePicker from '../ui/TimePicker'
 import DatePicker from '../ui/DatePicker'
 
 
+import { Database } from '@/types/database'
+
+type TimelineItem = Database['public']['Tables']['timeline_items']['Row']
+
 interface EditItemFormProps {
-    item: any
+    item: TimelineItem
     onClose: () => void
 }
 
@@ -61,7 +65,6 @@ export default function EditItemForm({ item, onClose }: EditItemFormProps) {
 
             // Combine Date and Time
             // Similar to AddItemForm, we rely on 'time' hidden input or logic
-            const timeVal = formData.get('time') as string
 
             // If the hidden input is not present (e.g. if we don't render it), we need to handle it.
             // But we will render input type="hidden" name="time"
