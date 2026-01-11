@@ -59,25 +59,62 @@
     cursor: pointer;
     border-radius: 50%;
     transition: background-color 0.2s, color 0.2s;
+    position: relative;
+    z-index: 1;
 }
 
-.dayCell:hover:not(.empty) {
+.dayCell:hover:not(.empty):not(.selected):not(.rangeStart):not(.rangeEnd):not(.inRange) {
     background-color: #f2f2f7;
 }
 
+/* Base selected style (single date) */
 .dayCell.selected {
     background-color: var(--accent-brown, #007aff);
     color: white;
     font-weight: 600;
 }
 
+/* Range Start */
+.dayCell.rangeStart {
+    background-color: var(--accent-brown, #007aff);
+    color: white;
+    font-weight: 600;
+    border-radius: 50% 0 0 50%;
+}
+
+/* Range End */
+.dayCell.rangeEnd {
+    background-color: var(--accent-brown, #007aff);
+    color: white;
+    font-weight: 600;
+    border-radius: 0 50% 50% 0;
+}
+
+/* Both Start and End (Single day range) */
+.dayCell.rangeStart.rangeEnd {
+    border-radius: 50%;
+}
+
+/* In Range */
+.dayCell.inRange {
+    background-color: rgba(0, 122, 255, 0.1);
+    /* Fallback blue with opacity */
+    color: #000;
+    border-radius: 0;
+}
+
+/* If --accent-brown is defined, use a lighter version for in-range if possible, 
+   or just rely on the fallback since CSS variables for opacity are tricky without calc-color */
+
 .dayCell.today {
     color: var(--accent-brown, #007aff);
     font-weight: 600;
 }
 
-/* Override text color if selected AND today */
-.dayCell.selected.today {
+/* Override text color if selected/start/end AND today */
+.dayCell.selected.today,
+.dayCell.rangeStart.today,
+.dayCell.rangeEnd.today {
     color: white;
 }
 
