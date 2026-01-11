@@ -24,3 +24,16 @@
     z-index: 90;
     background: transparent;
 }
+
+.datePickerPopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    margin-top: 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    background: white;
+    width: max-content;
+}

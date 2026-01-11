@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Link from 'next/link'
 import styles from './page.module.css'
 import { redirect } from 'next/navigation'
+import PopupRangeDatePicker from '@/components/ui/PopupRangeDatePicker'
 
 export default async function Dashboard() {
     const supabase = await createClient()
@@ -59,18 +60,10 @@ export default async function Dashboard() {
                             />
                         </div>
                         <div className={styles.formGroup}>
-                            <label className={styles.label}>開始日</label>
-                            <input
-                                name="startDate"
-                                type="date"
-                                className={styles.input}
-                            />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>終了日</label>
-                            <input
-                                name="endDate"
-                                type="date"
+                            <label className={styles.label}>日程</label>
+                            <PopupRangeDatePicker
+                                startName="startDate"
+                                endName="endDate"
                                 className={styles.input}
                             />
                         </div>

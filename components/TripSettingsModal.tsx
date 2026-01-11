@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { updateTrip, deleteTrip } from '@/actions/trip'
 import styles from './TripSettingsModal.module.css'
+import PopupRangeDatePicker from './ui/PopupRangeDatePicker'
 
 interface Trip {
     id: string
@@ -76,21 +77,12 @@ export default function TripSettingsModal({ trip, isOpen, onClose }: Props) {
                     </div>
 
                     <div className={styles.formGroup}>
-                        <label className={styles.label}>開始日</label>
-                        <input
-                            name="startDate"
-                            type="date"
-                            defaultValue={trip.start_date || ''}
-                            className={styles.input}
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>終了日</label>
-                        <input
-                            name="endDate"
-                            type="date"
-                            defaultValue={trip.end_date || ''}
+                        <label className={styles.label}>日程</label>
+                        <PopupRangeDatePicker
+                            startName="startDate"
+                            endName="endDate"
+                            defaultStartDate={trip.start_date || ''}
+                            defaultEndDate={trip.end_date || ''}
                             className={styles.input}
                         />
                     </div>
