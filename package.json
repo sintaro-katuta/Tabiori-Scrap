@@ -6,7 +6,8 @@
     "dev": "next dev -p 3005",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:visual": "playwright test"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",
@@ -18,9 +19,11 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
+    "@types/dotenv": "^6.1.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "typescript": "^5"
