@@ -27,15 +27,13 @@ test.describe('Authenticated Screenshots', () => {
     test('dashboard', async ({ page }) => {
         await page.goto('/dashboard');
         // Hide dynamic parts or wait for network idle
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
+        await page.waitForTimeout(1000); // Give a bit of time for rendering
         await page.screenshot({ path: 'public/docs/dashboard.png' });
     });
 
     test('trip detail', async ({ page }) => {
-        // We need a trip. Either create one or use existing.
-        // Creating one ensures consistent state.
-
-        // ... (Creation logic same as Trip CRUD) ... (simplified)
+        // ... (existing code)
         await page.goto('/dashboard');
         await page.getByPlaceholder('例: 京都2泊3日の旅').fill('Screenshot Trip');
         // ... select dates ...
@@ -46,7 +44,8 @@ test.describe('Authenticated Screenshots', () => {
         await page.getByRole('button', { name: '旅行を作成する' }).click();
 
         await expect(page).toHaveURL(/\/trips\/.*/);
-        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
+        await page.waitForTimeout(1000); // Give a bit of time for rendering
         await page.screenshot({ path: 'public/docs/trip-detail.png' });
 
         // Clean up? (optional for screenshot test)
