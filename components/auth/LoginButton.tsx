@@ -14,6 +14,9 @@ export default function LoginButton({ className }: { className?: string }) {
             provider: 'google',
             options: {
                 redirectTo: `${location.origin}/auth/callback${next ? `?next=${next}` : ''}`,
+                queryParams: {
+                    prompt: 'select_account',
+                },
             },
         })
     }
