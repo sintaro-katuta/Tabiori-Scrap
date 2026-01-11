@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Link from 'next/link'
 import styles from './page.module.css'
 import { redirect } from 'next/navigation'
+import PopupDatePicker from '@/components/ui/PopupDatePicker'
 
 export default async function Dashboard() {
     const supabase = await createClient()
@@ -60,17 +61,15 @@ export default async function Dashboard() {
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>開始日</label>
-                            <input
+                            <PopupDatePicker
                                 name="startDate"
-                                type="date"
                                 className={styles.input}
                             />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>終了日</label>
-                            <input
+                            <PopupDatePicker
                                 name="endDate"
-                                type="date"
                                 className={styles.input}
                             />
                         </div>
