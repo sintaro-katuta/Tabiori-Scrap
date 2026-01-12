@@ -56,8 +56,8 @@ test.describe('Trip CRUD', () => {
         // Re-open settings (using force if needed, although clean state preferred)
         await page.getByRole('button', { name: 'Settings' }).click({ force: true });
 
-        // Click "旅行を削除" to verify delete flow
-        await page.getByRole('button', { name: '旅行を削除' }).click();
+        // Click "Delete Trip" icon to verify delete flow
+        await page.getByRole('button', { name: 'Delete Trip' }).click();
 
         // Confirm delete in the separate view
         await page.getByRole('button', { name: '完全に削除する' }).click();
