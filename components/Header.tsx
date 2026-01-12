@@ -1,8 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from './Header.module.css'
+import UserMenu from './UserMenu'
+import { createClient } from '@/lib/supabase/server'
 
-export default function Header() {
+export default async function Header() {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
     return (
         <header className={styles.header}>
             <div className={styles.container}>
@@ -17,7 +22,7 @@ export default function Header() {
                     Tsuzuri
                 </Link>
                 <nav className={styles.nav}>
-                    {/* Future: User Avatar / Logout */}
+                    {user && <UserMenu user={user} />}
                 </nav>
             </div>
         </header>
